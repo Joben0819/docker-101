@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    docker.build("feiwinfrontend/example:latest")
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                script {
+                    docker.image("feiwinfrontend/example:latest").run("npm", "test")
+                }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                script {
+                    docker.image("feiwinfrontend/example:latest").run("-d", "-p", "3000:3000")
+                }
+            }
+        }
+    }
+}
