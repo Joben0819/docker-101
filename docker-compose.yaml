@@ -7,18 +7,18 @@ services:
       - SERVER_NAME=9906
       - SERVER_PORT=3005
       - CWD=/var/www/something
-      - BUILD_ENTRY=start-9901
+      - BUILD_ENTRY=start
     command: >
       sh -c "pm2-runtime start npm --name $SERVER_NAME --cwd $CWD -- run $BUILD_ENTRY -- --port $SERVER_PORT"
     ports:
       - "3000:3000"
     volumes:
-      - /var/www/something:/var/www/something
+      - .:/var/www/something
     networks:
       - pm2_network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:3000/ || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:3005/ || exit 1"]
       start_period: 10s
       interval: 30s
       timeout: 5s
