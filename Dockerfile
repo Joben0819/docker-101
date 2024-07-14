@@ -36,6 +36,6 @@ RUN \
 # Adjust the CMD to point to the correct entry point for Next.js standalone mode
 # CMD ["node", "server.js"]
 
-CMD  npm run 3002 
+# CMD  npm run 3002 
 
 
