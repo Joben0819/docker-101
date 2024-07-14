@@ -1,28 +1,17 @@
 version: "3.8"
+
 services:
-  test_9900:
-    container_name: test_9900
-    image: keymetrics/pm2:latest-alpine
-    environment:
-      - SERVER_NAME=9906
-      - SERVER_PORT=3005
-      - CWD=/var/www/something
-      - BUILD_ENTRY=start
-    command: >
-      sh -c "pm2-runtime start npm --name $SERVER_NAME --cwd $CWD -- run $BUILD_ENTRY -- --port $SERVER_PORT"
+  web:
+    build:
+      dockerfile: Dockerfile
+
+    image: docker101-web
+
     ports:
-      - "3000:3000"
+      - "3002:3002"
+
+    environment:
+      - ENVIRONMENT=production
+
     volumes:
-      - .:/var/www/something
-    networks:
-      - pm2_network
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:3005/ || exit 1"]
-      start_period: 10s
-      interval: 30s
-      timeout: 5s
-      retries: 3
-networks:
-  pm2_network:
-    driver: bridge
+      - .:/app
